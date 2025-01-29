@@ -4,6 +4,7 @@ package Library;
 import Library.entity.*;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Library {
     private static Library instance;
@@ -12,11 +13,11 @@ public class Library {
     private final Map<Long, Librarian> librariens;
     private final Map<Long,Author> authors;
 
-    public Library() {
-        this.libraryBook=new HashMap<>();
-        this.libraryReaders=new HashMap<>();
-        this.librariens=new HashMap<>();
-        this.authors=new HashMap<>();
+    private Library() {
+        this.libraryBook=new ConcurrentHashMap<>();
+        this.libraryReaders=new ConcurrentHashMap<>();
+        this.librariens=new ConcurrentHashMap<>();
+        this.authors=new ConcurrentHashMap<>();
     }
     private Long getNextBookId(){
         if(libraryBook.isEmpty()){
@@ -45,12 +46,13 @@ public class Library {
         return Collections.max(librariens.keySet()) + 1;
     }
 
-    public static Library getInstance() {
-        if(instance==null){
-            instance=new Library();
+    public static synchronized Library getInstance() {
+        if (instance == null) {
+            instance = new Library();
         }
         return instance;
     }
+
 
     public void addBook(LibraryBook libraryBook){
         if(libraryBook.getBookId()==null){

@@ -14,6 +14,7 @@ public class Main {
         // Singleton library instance'ını al
         Library library = Library.getInstance();
 
+
         // Test verilerini oluştur
         Author author = new Author("George Orwell", new ArrayList<>());
         LibraryBook book = new LibraryBook(1L, "1984", author, 29.99, 1 );
