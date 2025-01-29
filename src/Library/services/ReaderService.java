@@ -4,6 +4,7 @@ import Library.Library;
 import Library.entity.LibraryBook;
 import Library.entity.Person;
 import Library.entity.Reader;
+import Library.validations.ReaderValidations;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -149,7 +150,7 @@ public class ReaderService implements IReaderService {
     public void showAllBooks() {
         try {
             List<LibraryBook> books=library.getAllBooks();
-            System.out.println(books);
+            displayBooks(books);
         }catch (RuntimeException e){
             System.out.println("Kitapları görüntülerken hata oluştu: "+e.getMessage());
         }
@@ -184,7 +185,11 @@ public class ReaderService implements IReaderService {
             LibraryBook book=library.getBookById(bookId);
 
             Reader reader= currentUser;
-            reader.borrowBook(book);
+            List<LibraryBook> myBooks=reader.getMyBooks();
+            ReaderValidations.myBooksContainsAddBookCheck(myBooks,book);
+                reader.borrowBook(book);
+
+
             System.out.println(book.getBookName()+" adlı kitap kiralandı.");
 
         }catch (RuntimeException e){
@@ -199,6 +204,9 @@ public class ReaderService implements IReaderService {
             LibraryBook book=library.getBookById(bookId);
 
             Reader reader=currentUser;
+            List<LibraryBook> myBooks=reader.getMyBooks();
+            ReaderValidations.myBooksContainsAddBookCheck(myBooks,book);
+
             reader.purchaseBook(book);
             System.out.println(book.getBookName()+" adlı kitap satın alındı.");
 

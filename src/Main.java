@@ -34,9 +34,7 @@ public class Main {
         // LibraryService ile test
         LibraryService libraryService = new LibraryService();
         libraryService.start();
-        libraryService.logout();
-        libraryService.isAuthenticated();
-        libraryService.login();
+
 
     }
 }

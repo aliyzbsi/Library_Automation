@@ -17,11 +17,21 @@ public class ReaderValidations {
         if (!myLibraryBooks.contains(libraryBook)) {
             throw new RuntimeException("Bu kitap sizde değil!");
         }
+
     }
 
     public static void maksBookCheck(List<LibraryBook> borrowedLibraryBooks) {
         if (borrowedLibraryBooks.size() >= 5) {
             throw new RuntimeException("Maksimum ödünç alma limitine ulaştınız! (Limit: " + 5 + ")");
+        }
+    }
+
+    public static void myBooksContainsAddBookCheck(List<LibraryBook> myBooks, LibraryBook book) {
+        boolean bookExists = myBooks.stream()
+                .anyMatch(myBook -> myBook.getBookName().equalsIgnoreCase(book.getBookName()));
+
+        if (bookExists) {
+            throw new RuntimeException(book.getBookName() + " adlı kitap sizde mevcut, birden fazla alınamaz!");
         }
     }
 }
